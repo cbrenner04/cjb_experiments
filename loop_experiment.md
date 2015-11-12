@@ -148,8 +148,8 @@ Loop | Operator | # of runs | Average time (in seconds)
 --- | --- | --- | ---
 while | < | 20 | 24.571144
 while | != | 20 | 24.481480
-until | > | 68.414783
-until | == | 68.807733
+until | > | 20 | 68.414783
+until | == | 20 | 68.807733
 
 ## Results
 
