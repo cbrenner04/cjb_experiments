@@ -178,6 +178,3 @@ have little effect in practice and the type of loop has the most effect.
 The biggest question for me is: Why? I don't care if I have to write code
 unconventionally to get things to go faster (as far as I understand it is
 unconventional to write a while loop with a negative).
-
-But why does convention run slower? Why don't we write to optimization
-regardless of how it sounds in English? Maybe that is the limitation to Ruby.
