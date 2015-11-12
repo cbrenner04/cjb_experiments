@@ -156,7 +156,7 @@ until | == | 20 | 68.807733
 Each loop needed to run 11 times before the example was complete. With the
 simple loops, `while` `<` was the fastest and `while` `!=` was the slowest,
 however, in the test suite both `while` loops are by far the fastest. The
-difference between the `while` loops and the `until` loops are 279.46%. That is
+difference between the `while` loops and the `until` loops is 279.46%. That is
 considerable. Interesting that the slowest method in raw ruby is the fastest in
 this test example.
 
