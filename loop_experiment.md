@@ -67,7 +67,7 @@ loops.
 ## What's next?
 
 Now I want to test the run time differences for tests using these
-loops/operators. You may want to check out my set test set up 
+loops/operators. You may want to check out my test set up 
 [here](https://github.com/cbrenner04/tfd_core_features/blob/master/spec/spec_helper.rb).
 So, running this:
 
