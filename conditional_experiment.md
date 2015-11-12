@@ -217,4 +217,5 @@ total |  | 40 | 0.2838 | 0.054 | 0.3378 | 3.2716
 
 Even though it is not conventional to write `unless has_no` due to it being
 a double negative, it seems that it is the fastest option for the first two
-example. Once again, going against convention optimizes my test a bit. 
+example. It also seems like using `unless` is faster than `if`. Once again,
+going against convention optimizes my test a bit. 
