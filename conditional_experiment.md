@@ -87,7 +87,7 @@ end
 Conditional | Qualifier | # of runs | Average time (in seconds)
 --- | --- | --- | ---
 unless | has_no| 20 | 2.8889815
-if | hss | 20 | 7.77466095
+if | has | 20 | 7.77466095
 
 ## Conclusion
 
