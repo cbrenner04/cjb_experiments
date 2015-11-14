@@ -2,7 +2,7 @@ require 'benchmark'
 
 def if_1
   Benchmark.bm(7) do |x|
-    x.report('if >:') do
+    x.report('if <:') do
       x = 2
       1_000_000_000.times do
         puts 'x < 1' if x < 1

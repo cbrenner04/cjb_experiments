@@ -71,8 +71,8 @@ user | system | total | real
 As you can see, the fastest is a toss up between a `while` loop using the `<`
 operator and an `until` loop using the `>` operator. The biggest difference
 in these times are between the `while` loop using the `<` operator and the
-`while` loop using the `!=` operator, at a 15% increase in time. There is
-an 11% increase from `until` `>` to `until` `==`.
+`while` loop using the `!=` operator, at a 14% increase in time. There is
+an 10% increase from `until` `>` to `until` `==`.
 
 ## Why is this important?
 

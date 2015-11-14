@@ -1,10 +1,85 @@
 # Conditional experiment
 
 So my [loop experiment](https://github.com/cbrenner04/whatever/blob/master/loop_experiment.md)
-helped me optimize a bit. I could use some help with writing some raw Ruby with
-conditionals to test the difference but based on the previous experiment, I
-don't think it is worth it. So I'm just gonna get down to the real world
-example.
+helped me optimize a bit.
+
+Below is an experiment with just pure Ruby.
+
+```ruby
+require 'benchmark'
+
+def if_1
+  Benchmark.bm(7) do |x|
+    x.report('if <:') do
+      x = 2
+      1_000_000_000.times do
+        puts 'x < 1' if x < 1
+      end
+    end
+  end
+end
+
+def unless_1
+  Benchmark.bm(7) do |x|
+    x.report('unless >:') do
+      x = 2
+      1_000_000_000.times do
+        puts 'x < 1' unless x > 1
+      end
+    end
+  end
+end
+
+def if_2
+  Benchmark.bm(7) do |x|
+    x.report('if !=:') do
+      x = 2
+      1_000_000_000.times do
+        puts 'x != 2' if x != 2
+      end
+    end
+  end
+end
+
+def unless_2
+  Benchmark.bm(7) do |x|
+    x.report('unless ==:') do
+      x = 2
+      1_000_000_000.times do
+        puts 'x != 2' unless x == 2
+      end
+    end
+  end
+end
+
+200.times do
+  send %i(if_1 unless_1 if_2 unless_2).sample
+end
+```
+
+That resulted in the following.
+
+Conditional | Operator | user | system | total | real
+--- | --- | --- | --- | --- | ---
+if | != | 45 | 59.7973 | 0.0302 | 59.8276 | 59.8381
+if | < | 49 | 54.2090 | 0.03 | 54.2390 | 54.2488
+unless | == | 51 | 58.3076 | .0316 | 58.3392 | 58.3506
+unless | > | 55 | 54.5772 | 0.0327 | 54.61 | 54.6207
+
+Conditional | user | system | total | real
+--- | --- | --- | --- | ---| real
+if | 94 | 56.8842 | 0.0302 | 56.9144 | 59.8381
+unless | 106 | 56.3721 | 0.0322 | 56.4042 | 56.4153
+
+  | user | system | total | real
+--- | --- | --- | --- | ---
+Total | 56.6128 | 0.0312 | 56.644 | 56.6546
+
+Again, it's toss up which is the fastest between `if` and `unless` with the `<`
+and `>` operators. The difference in times between `if` `!=` and `if` `<` is
+10%. The difference in times between `unless` `==` and `unless` `>` is 7%.
+
+Now for some real world tests.
 
 ## Test 1
 
@@ -212,6 +287,11 @@ Conditional | Qualifier | # of runs | user | system | total | real
 if | has_no_css | 20 | 0.535 | 0.101 | 0.636 | 5.8401
 unless | has_css | 20 | 0.0325 | 0.007 | 0.0395 | 0.8317
 total |  | 40 | 0.2838 | 0.054 | 0.3378 | 3.2716
+
+The differences in `total` times are 174%, 192%, and 177%, respectively. The
+increases in `total` times, from `unless` to `if`, are 1466%, 4930%, and 1610%,
+respectively. The differences in `real` times are 110%, 180%, and 150%. The
+increases in `real` times are 346%, 1902%, and 702%.
 
 ## Conclusion
 
