@@ -186,8 +186,9 @@ total | 80 | 0.9623 | 0.1644 | 1.1266 | 46.4922
 Each loop needed to run 11 times before the example was complete. With the
 simple loops, `while` `<` was the fastest and `while` `!=` was the slowest,
 however, in the test suite both `while` loops are by far the fastest. The
-difference between the `while` loops and the `until` loops is 241% for `total`
-and 181% for `real`. That is considerable. 
+difference between the `while` loops and the `until` loops is 109% with a 340%
+increase for `total` and a 95% difference with a 283% percent increase for
+`real`. That is considerable. 
 
 I struggled to find a way to run these examples at random. Given the
 differences in time to complete, I am not sure that would have much effect.
