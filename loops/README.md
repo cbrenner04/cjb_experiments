@@ -86,8 +86,8 @@ loops.
 ## What's next?
 
 Now I want to test the run time differences for real world tests using these
-loops/operators. This tests is a paired down test from
-[here](https://github.com/cbrenner04/tfd_core_features). The entirety of the
+loops/operators. This test is a paired down test from this test
+[suite](https://github.com/cbrenner04/tfd_core_features). The entirety of the
 [participant](https://github.com/cbrenner04/tfd_core_features/tree/master/spec/features/participant)
 specs were run first to add data to the database. The database was then dumped
 and reloaded. The below test was then added to the repo in a separate file and
