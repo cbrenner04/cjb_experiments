@@ -3,7 +3,9 @@
 So my [loop experiment](https://github.com/cbrenner04/whatever/blob/master/loop_experiment.md)
 helped me optimize a bit.
 
-Below is an experiment with just pure Ruby.
+Below is an experiment with just pure Ruby. You'll notice I wrote this in a way
+that doesn't print anything. I didn't want to have to sift through
+200,000,000,000 records.
 
 ```ruby
 require 'benchmark'
