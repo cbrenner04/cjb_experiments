@@ -81,7 +81,12 @@ Again, it's toss up which is the fastest between `if` and `unless` with the `<`
 and `>` operators. The difference in times between `if` `!=` and `if` `<` is
 10%. The difference in times between `unless` `==` and `unless` `>` is 7%.
 
-Now for some real world tests.
+Now for some real world tests. These tests are paired down tests from
+[here](https://github.com/cbrenner04/tfd_core_features). The entirety of the
+[participant](https://github.com/cbrenner04/tfd_core_features/tree/master/spec/features/participant)
+specs were run first to add data to the database. The database was then dumped
+and reloaded. These tests were then added to the repo in separate files and
+run.
 
 ## Test 1
 

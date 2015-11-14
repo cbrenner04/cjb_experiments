@@ -85,9 +85,14 @@ loops.
 
 ## What's next?
 
-Now I want to test the run time differences for tests using these
-loops/operators. You may want to check out my test set up 
-[here](https://github.com/cbrenner04/tfd_core_features/blob/master/spec/spec_helper.rb).
+Now I want to test the run time differences for real world tests using these
+loops/operators. These tests are paired down tests from
+[here](https://github.com/cbrenner04/tfd_core_features). The entirety of the
+[participant](https://github.com/cbrenner04/tfd_core_features/tree/master/spec/features/participant)
+specs were run first to add data to the database. The database was then dumped
+and reloaded. The below test was then added to the repo in a separate file and
+run.
+
 So, running this:
 
  ```ruby
