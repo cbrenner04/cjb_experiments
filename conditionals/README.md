@@ -1,6 +1,6 @@
 # Conditional experiment
 
-So my [loop experiment](https://github.com/cbrenner04/whatever/blob/master/loop_experiment.md)
+So my [loop experiment](https://github.com/cbrenner04/whatever/blob/master/loops/README.md)
 helped me optimize a bit.
 
 Below is an experiment with just pure Ruby. You'll notice I wrote this in a way
@@ -273,7 +273,7 @@ end
 
 ### Test 1
 
-Conditional | Qualifier | # of runs | user | system | total | real
+Conditional | Matcher | # of runs | user | system | total | real
 --- | --- | --- | --- | --- | --- | ---
 if | has_css | 20 | 0.484 | 0.095 | 0.579 | 6.9119
 unless | has_no_css | 20 | 0.0355 | 0.004 | 0.0395 | 1.9963
@@ -281,7 +281,7 @@ total |  | 40 | 0.2598 | 0.0495 | 0.3092 | 4.4541
 
 ### Test 2
 
-Conditional | Qualifier | # of runs | user | system | total | real
+Conditional | Matcher | # of runs | user | system | total | real
 --- | --- | --- | --- | --- | --- | ---
 if | has_css | 20 | 0.2065 | 0.04 | 0.2465 | 5.3238
 unless | has_no_css | 20 | 0.005 | 0 | 0.005 | 0.2799
@@ -289,7 +289,7 @@ total |  | 40 | 0.1058 | 0.02 | 0.1258 | 2.8019
 
 ### Test 3
 
-Conditional | Qualifier | # of runs | user | system | total | real
+Conditional | Matcher | # of runs | user | system | total | real
 --- | --- | --- | --- | --- | --- | ---
 if | has_no_css | 20 | 0.535 | 0.101 | 0.636 | 5.8401
 unless | has_css | 20 | 0.0325 | 0.007 | 0.0395 | 0.8317
