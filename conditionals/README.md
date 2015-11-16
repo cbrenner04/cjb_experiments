@@ -137,6 +137,9 @@ Operator | Count | user | system | total | real
 --- | --- | --- | --- | ---
 Total | 59.4179 | 0.1025 | 59.5204 | 59.5965
 
+It looks like the operator accounts for the most variability but it's mostly a
+toss up on what's fastest in the above test.
+
 Now for some real world tests. These tests are paired down tests from this test
 [suite](https://github.com/cbrenner04/tfd_core_features). The entirety of the
 [participant](https://github.com/cbrenner04/tfd_core_features/tree/master/spec/features/participant)
