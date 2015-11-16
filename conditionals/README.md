@@ -462,6 +462,12 @@ convention | 0.025 | 0.0025 | 0.0275 | 3.7416
 As you can see, the difference between `if` and `unless` is negligible, while
 mixing the two, and therefore keeping closer to convention, is fastest by far.
 
+The differences in `total` times from `convention` to `if` and `convention` to
+`unless` is roughly the same at ~155%. The increase in time was ~792%.
+
+The differences in `real` times from `convention` to `if` and `convention` to
+`unless` was ~80%; with the increase in times at ~235%.
+
 ## Conclusions?
 
 The first three tests make it seem that using `unless` in favor of `if`, no
