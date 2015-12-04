@@ -33,6 +33,7 @@ def select_day(date)
   end
 end
 
+# Day is either 1 - 9; 30 or 31; 23 or greater and there are two choices
 def unusual_day(num)
   if num == 2
     unusual_day_2(num)
@@ -45,6 +46,7 @@ def unusual_day(num)
   end
 end
 
+# Day is the 2nd
 def unusual_day_2(num)
   if page.has_no_text?('29', count: 2)
     february(num)
@@ -53,27 +55,76 @@ def unusual_day_2(num)
   end
 end
 
+# Day is the 3rd
 def unusual_day_3(num)
   wrong_date = first('.text-right.ng-binding.ng-scope', text: "#{num}").text
   if wrong_date.to_i == 3
     first('.text-right.ng-binding.ng-scope', text: "#{num}").click
-  elsif wrong_date.to_i >= 30
+  elsif wrong_date.to_i == 30
+    wrong_day_30
+  elsif wrong_date.to_i == 31
     calendar_date(num, 2)
   elsif wrong_date.to_i == 23
     unusual_day_4(num)
   end
 end
 
-def unusual_day_4(num)
-  if page.has_no_text?('30', count: 2)
+# Day is the 3rd and the first choice is the 30th
+def wrong_day_30(num)
+  if two_30_one_31_last
     calendar_date(num, 1)
-  elsif page.has_text?('30', count: 2) && page.has_no_text?('31', count: 2)
+  elsif two_30_one_31_not_last || two_30_two_31
     calendar_date(num, 2)
-  elsif page.has_text?('30', count: 2) && page.has_text?('31', count: 2)
-    calendar_date(num, 3)
   end
 end
 
+# Day is the 3rd, and it's March
+def one_30_last
+  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  wrong_date = date.text
+  page.has_no_text?('30', count: 2) && wrong_date.to_i == 30
+end
+
+# Day is the 3rd, and it's January
+def one_30_not_last
+  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  wrong_date = date.text
+  page.has_no_text?('30', count: 2) && wrong_date.to_i != 30
+end
+
+# Day is the 3rd, first choice is the 30th, second choice is not the 31st
+def two_30_one_31_last
+  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  wrong_date = date.text
+  page.has_text?('30', count: 2) && page.has_text?('31', count: 1) &&
+    wrong_date.to_i == 31
+end
+
+# Day is the 3rd, first choice is the 30th, second choice is the 31st
+def two_30_one_31_not_last
+  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  wrong_date = date.text
+  page.has_text?('30', count: 2) && page.has_text?('31', count: 1) &&
+    wrong_date.to_i != 31
+end
+
+# Day is the 3rd, first choice is the 30th, second choice is the 31st
+def two_30_two_31
+  page.has_text?('30', count: 2) && page.has_text?('31', count: 2)
+end
+
+# Day is the 3rd, first choice is the 23rd
+def unusual_day_4(num)
+  if one_30_last
+    calendar_date(num, 1)
+  elsif one_30_not_last || two_30_one_31_last
+    calendar_date(num, 3)
+  elsif two_30_one_31_not_last || two_30_two_31
+    calendar_date(num, 4)
+  end
+end
+
+# Day is the 2nd, the previous month is February on a non-leap year
 def february(num)
   wrong_date = first('.text-right.ng-binding.ng-scope', text: "#{num}").text
   if wrong_date.to_i.between?(23, 28)
@@ -85,6 +136,8 @@ def february(num)
   end
 end
 
+# Day is the 2nd, and the month and the previous month is not February
+# OR Day is the 2nd, and any month in a leap year
 def not_february(num)
   wrong_date = first('.text-right.ng-binding.ng-scope', text: "#{num}").text
   if wrong_date.to_i.between?(23, 29)
