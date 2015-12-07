@@ -96,12 +96,13 @@ def select_day(date)
           selection.click
         end
       end
-    elsif page.has_no_text?(num, count: 2)
-      first('.text-right.ng-binding.ng-scope', text: "#{num}").click
-    else
+    elsif first('.text-right.ng-binding.ng-scope', text: "#{num}")[:class]
+          .include?('text-muted')
       selection = page.all('.text-right.ng-binding.ng-scope',
                            text: "#{num}")[1]
       selection.click
+    else
+      first('.text-right.ng-binding.ng-scope', text: "#{num}").click
     end
   else
     find('.text-right.ng-binding.ng-scope', text: "#{num}").click
