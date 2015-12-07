@@ -27,9 +27,16 @@ def select_day(date)
   d = Date.parse(date)
   num = d.mday
   wrong_date = first('.text-right.ng-binding.ng-scope', text: "#{num}").text
-  if num.between?(1, 9) || num.between?(30, 31) ||
-     num >= 23 && page.has_text?("#{num}", count: 2)
-    if num == 2
+  if num.between?(1, 9)
+    if num == 1
+      if wrong_date.to_i == 1
+        first('.text-right.ng-binding.ng-scope', text: "#{num}").click
+      elsif wrong_date.to_i == 31
+        selection = page.all('.text-right.ng-binding.ng-scope',
+                             text: "#{num}")[1]
+        selection.click
+      end
+    elsif num == 2
       if page.has_no_text?('29', count: 2)
         if wrong_date.to_i.between?(23, 28)
           wrong_date_reps = { 23 => 6, 24 => 5, 25 => 4, 26 => 3, 27 => 2,
@@ -38,9 +45,7 @@ def select_day(date)
                                text: "#{num}")[wrong_date_reps[wrong_date.to_i]]
           selection.click
         else
-          selection = page.all('.text-right.ng-binding.ng-scope',
-                               text: "#{num}")[0]
-          selection.click
+          first('.text-right.ng-binding.ng-scope', text: "#{num}").click
         end
       else
         if wrong_date.to_i.between?(23, 29)
@@ -50,13 +55,12 @@ def select_day(date)
                                text: "#{num}")[wrong_date_reps[wrong_date.to_i]]
           selection.click
         else
-          selection = page.all('.text-right.ng-binding.ng-scope',
-                               text: "#{num}")[0]
-          selection.click
+          first('.text-right.ng-binding.ng-scope', text: "#{num}").click
         end
       end
     elsif num == 3
-      last_date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+      last_date = page.all('.text-right.ng-binding.ng-scope',
+                           text: "#{num}").last
       last_date_text = last_date.text
       if wrong_date.to_i == 3
         first('.text-right.ng-binding.ng-scope', text: "#{num}").click
@@ -66,40 +70,45 @@ def select_day(date)
           selection = page.all('.text-right.ng-binding.ng-scope',
                                text: "#{num}")[1]
           selection.click
-        elsif (page.has_text?('30', count: 2) &&
-              page.has_text?('31', count: 1) && last_date_text.to_i != 31) ||
-              (page.has_text?('30', count: 2) && page.has_text?('31', count: 2))
+        elsif page.has_text?('30', count: 2) &&
+              page.has_text?('31', count: 1) && last_date_text.to_i != 31 ||
+              page.has_text?('30', count: 2) && page.has_text?('31', count: 2)
           selection = page.all('.text-right.ng-binding.ng-scope',
                                text: "#{num}")[2]
           selection.click
         end
       elsif wrong_date.to_i == 31
         selection = page.all('.text-right.ng-binding.ng-scope',
-                             text: "#{num}")[2]
+                             text: "#{num}")[1]
         selection.click
       elsif wrong_date.to_i == 23
         if page.has_no_text?('30', count: 2) && last_date_text.to_i == 30
           selection = page.all('.text-right.ng-binding.ng-scope',
                                text: "#{num}")[1]
           selection.click
-        elsif (page.has_no_text?('30', count: 2) &&
-              last_date_text.to_i != 30) || (page.has_text?('30', count: 2) &&
-              page.has_text?('31', count: 1) && wrong_date.to_i == 31)
+        elsif page.has_no_text?('30', count: 2) && last_date_text.to_i != 30 ||
+              page.has_text?('30', count: 2) &&
+              page.has_text?('31', count: 1) && last_date_text.to_i == 31
+          selection = page.all('.text-right.ng-binding.ng-scope',
+                               text: "#{num}")[2]
+          selection.click
+        elsif page.has_text?('30', count: 2) &&
+              page.has_text?('31', count: 1) && last_date_text.to_i != 31 ||
+              page.has_text?('30', count: 2) && page.has_text?('31', count: 2)
           selection = page.all('.text-right.ng-binding.ng-scope',
                                text: "#{num}")[3]
           selection.click
-        elsif (page.has_text?('30', count: 2) &&
-              page.has_text?('31', count: 1) && wrong_date.to_i != 31) ||
-              (page.has_text?('30', count: 2) && page.has_text?('31', count: 2))
-          selection = page.all('.text-right.ng-binding.ng-scope',
-                               text: "#{num}")[4]
-          selection.click
         end
       end
-    elsif first('.text-right.ng-binding.ng-scope', text: "#{num}")[:class]
-          .include?('text-muted')
-      selection = page.all('.text-right.ng-binding.ng-scope',
-                           text: "#{num}")[1]
+    elsif num.between?(4, 9) && page.has_text?("2#{num}", count: 2)
+      selection = page.all('.text-right.ng-binding.ng-scope', text: "#{num}")[1]
+      selection.click
+    else
+      first('.text-right.ng-binding.ng-scope', text: "#{num}").click
+    end
+  elsif num.between?(30, 31) || num >= 23 && page.has_text?("#{num}", count: 2)
+    if num >= 23 && page.has_text?("#{num}", count: 2)
+      selection = page.all('.text-right.ng-binding.ng-scope', text: "#{num}")[1]
       selection.click
     else
       first('.text-right.ng-binding.ng-scope', text: "#{num}").click

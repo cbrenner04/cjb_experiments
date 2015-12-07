@@ -25,25 +25,46 @@ end
 def select_day(date)
   d = Date.parse(date)
   num = d.mday
-  if num.between?(1, 9) || num.between?(30, 31) ||
-     num >= 23 && page.has_text?("#{num}", count: 2)
-    unusual_day(num)
+  if num.between?(1, 9)
+    day_less_than_10(num)
+  elsif num.between?(30, 31) || num >= 23 && page.has_text?("#{num}", count: 2)
+    day_greater_than_23
   else
     find('.text-right.ng-binding.ng-scope', text: "#{num}").click
   end
 end
 
-# Day is either 1 - 9; 30 or 31; 23 or greater and there are two choices
-def unusual_day(num)
-  if num == 2
+# Day is either 1 - 9
+def day_less_than_10(num)
+  if num == 1
+    unusual_day_1(num)
+  elsif num == 2
     unusual_day_2(num)
   elsif num == 3
     unusual_day_3(num)
-  elsif first('.text-right.ng-binding.ng-scope', text: "#{num}")[:class]
-        .include?('text-muted')
+  elsif num.between?(4, 9) && page.has_text?("2#{num}", count: 2)
     calendar_date(num, 1)
   else
     first('.text-right.ng-binding.ng-scope', text: "#{num}").click
+  end
+end
+
+# Day is 23 or greater
+def day_greater_than_23(num)
+  if num >= 23 && page.has_text?("#{num}", count: 2)
+    calendar_date(num, 1)
+  else
+    first('.text-right.ng-binding.ng-scope', text: "#{num}").click
+  end
+end
+
+# Day is the 1st
+def unusual_day_1(num)
+  wrong_date = first('.text-right.ng-binding.ng-scope', text: "#{num}").text
+  if wrong_date.to_i == 1
+    first('.text-right.ng-binding.ng-scope', text: "#{num}").click
+  elsif wrong_date.to_i == 31
+    calendar_date(num, 1)
   end
 end
 
@@ -64,7 +85,7 @@ def unusual_day_3(num)
   elsif wrong_date.to_i == 30
     wrong_day_30(num)
   elsif wrong_date.to_i == 31
-    calendar_date(num, 2)
+    calendar_date(num, 1)
   elsif wrong_date.to_i == 23
     unusual_day_4(num)
   end
@@ -81,32 +102,32 @@ end
 
 # Day is the 3rd, and it's March
 def one_30_last(num)
-  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
-  wrong_date = date.text
-  page.has_no_text?('30', count: 2) && wrong_date.to_i == 30
+  last_date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  last_date_text = last_date.text
+  page.has_no_text?('30', count: 2) && last_date_text.to_i == 30
 end
 
 # Day is the 3rd, and it's January
 def one_30_not_last(num)
-  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
-  wrong_date = date.text
-  page.has_no_text?('30', count: 2) && wrong_date.to_i != 30
+  last_date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  last_date_text = last_date.text
+  page.has_no_text?('30', count: 2) && last_date_text.to_i != 30
 end
 
 # Day is the 3rd, first choice is the 30th, second choice is not the 31st
 def two_30_one_31_last(num)
-  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
-  wrong_date = date.text
+  last_date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  last_date_text = last_date.text
   page.has_text?('30', count: 2) && page.has_text?('31', count: 1) &&
-    wrong_date.to_i == 31
+    last_date_text.to_i == 31
 end
 
 # Day is the 3rd, first choice is the 30th, second choice is the 31st
 def two_30_one_31_not_last(num)
-  date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
-  wrong_date = date.text
+  last_date = page.all('.text-right.ng-binding.ng-scope', text: "#{num}").last
+  last_date_text = last_date.text
   page.has_text?('30', count: 2) && page.has_text?('31', count: 1) &&
-    wrong_date.to_i != 31
+    last_date_text.to_i != 31
 end
 
 # Day is the 3rd, first choice is the 30th, second choice is the 31st
@@ -119,9 +140,9 @@ def unusual_day_4(num)
   if one_30_last(num)
     calendar_date(num, 1)
   elsif one_30_not_last(num) || two_30_one_31_last(num)
-    calendar_date(num, 3)
+    calendar_date(num, 2)
   elsif two_30_one_31_not_last(num) || two_30_two_31
-    calendar_date(num, 4)
+    calendar_date(num, 3)
   end
 end
 
@@ -133,7 +154,7 @@ def february(num)
                                 27 => 2, 28 => 1 }
     calendar_date(num, wrong_date_replacements[wrong_date.to_i])
   else
-    calendar_date(num, 0)
+    first('.text-right.ng-binding.ng-scope', text: "#{num}").click
   end
 end
 
@@ -146,7 +167,7 @@ def not_february(num)
                                 28 => 2, 29 => 1 }
     calendar_date(num, wrong_date_replacements[wrong_date.to_i])
   else
-    calendar_date(num, 0)
+    first('.text-right.ng-binding.ng-scope', text: "#{num}").click
   end
 end
 
